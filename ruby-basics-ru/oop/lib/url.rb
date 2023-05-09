@@ -61,8 +61,8 @@ class Url
   def query_params
     return {} unless url.query
 
-    params_array = url.query.scan(/(\w+)=(\w+)/)
-    @query_params ||= params_array.reduce({}) { |obj, arr| obj[arr[0].to_sym] = arr[1]; obj }
+    params_array = 
+    @query_params ||= url.query.scan(/(\w+)=(\w+)/).to_h.transform_keys(&:to_sym)
   end
 
   def query_param(key, default_value = nil)
