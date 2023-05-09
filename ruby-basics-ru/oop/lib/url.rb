@@ -1,51 +1,6 @@
 # frozen_string_literal: true
 
 # BEGIN
-# class Url
-#   include Forwardable
-  
-#   def initialize(query_string)
-#     @query_string = query_string
-#   end
-
-#   def host
-#     Url
-#   end
-  
-#   def scheme
-#     query_string.slice(\w+(?=\:\/\/))
-#   end
-
-#   def port
-#     (?<=:)[\d]+(?=\??)
-#   end
-
-#   def query_params
-#     query_string.scan(/(\w+)=(\w+)/).to_h
-#   end
-
-#   def query_param(key, default_value = nil)
-#     query_params.fetch(key, default_value)
-#   end
-
-#   private
-
-#   def get_host
-#     query_string.slice(/(?<=\/\/)[\w\.-]*(?=\:?\??)/)
-#   end
-
-#   def get_scheme
-#     query_string.slice(\w+(?=\:\/\/))
-#   end
-
-#   def get_query_params
-#     query_string.scan(/(\w+)=(\w+)/).to_h
-#   end
-
-#   def get_port
-#     query_string.slice(/(?<=:)[\d]+(?=\??)/)
-#   end
-# end
 require 'uri'
 
 class Url
@@ -61,7 +16,6 @@ class Url
   def query_params
     return {} unless url.query
 
-    params_array = 
     @query_params ||= url.query.scan(/(\w+)=(\w+)/).to_h.transform_keys(&:to_sym)
   end
 
@@ -70,7 +24,7 @@ class Url
   end
 
   def ==(other)
-    scheme == other.scheme && host == other.host && port == other.port && query_params == other.query_params
+    [scheme, host, port, query_params] == [other.scheme, other.host, other.port, other.query_params]
   end
 
   private
